@@ -13,6 +13,7 @@ ENV LANG en_US.UTF-8
 
 # cpp dev tools
 RUN  apt-get update && apt-get install -y --no-install-recommends \
+	bash \
     clang \
     clang-format-3.8 \
     make \
@@ -64,11 +65,14 @@ RUN git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 #tmuxifier
 RUN git clone https://github.com/jimeh/tmuxifier.git $HOME/.tmuxifier
 
+RUN git clone https://github.com/bhilburn/powerlevel9k.git $HOME/.oh-my-zsh/custom/themes/powerlevel9k
+RUN chmod -r .vim 777 && git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+
 RUN vim +PluginInstall +qall
 
 # bash
-#COPY .bashrc $HOME/.bashrc
-#COPY .bashrc $HOME/.bash_prompt
+COPY .bashrc $HOME/.bashrc
+COPY .bashrc $HOME/.bash_prompt
 
 WORKDIR ${HOME}
-CMD ["/bin/bash"]
+CMD ["/bin/zsh"]
